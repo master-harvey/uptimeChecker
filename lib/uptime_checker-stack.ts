@@ -8,6 +8,18 @@ import {
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
+const functionCode = `#Check URL uptime, return success if available, false and notify SNS if not
+import urllib.request as requests
+from os import environ
+
+def handler(event,context):
+  response = requests.urlopen(environ['URL'])
+  return { 
+    "statusCode": response.status, "body": { "status": response.status, "URL": environ['URL'] },
+    "headers": { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*" }
+  }
+`
+
 export class UptimeCheckerStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
@@ -21,18 +33,10 @@ export class UptimeCheckerStack extends Stack {
 
     const requestFunction = new lambda.Function(this, 'Singleton', {
       functionName: "uptimeChecker",
-      code: lambda.Code.fromInline(`#Check URL uptime, return success if available, false and notify SNS if not
-      from botocore.vendored import requests
-      def handler():
-        response = requests.get(environ['URL'], timeout=20)
-        return { 
-          "statusCode": response.status_code, "body": { "status": response.status_code, "URL": environ['URL'] },
-          "headers": { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*" }
-        }
-      `),
+      code: lambda.Code.fromInline(functionCode),
       environment: { URL },
-      handler: 'index.function_name',
-      timeout: Duration.seconds(20),
+      handler: 'index.handler',
+      timeout: Duration.seconds(30),
       runtime: lambda.Runtime.PYTHON_3_9,
       onFailure: new destinations.SnsDestination(topic)
     });

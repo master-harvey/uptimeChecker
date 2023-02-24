@@ -19,10 +19,10 @@ const functionCode = `#Check URL uptime, return success if available, false and 
 import urllib.request as requests
 
 def handler(event,context):
-  response = requests.urlopen(event.URL)
+  response = requests.urlopen(event['URL'])
   print(response)
   return { 
-    "statusCode": response.status, "body": { "status": response.status, "URL": event.URL },
+    "statusCode": response.status, "body": { "status": response.status, "URL": event['URL'] },
     "headers": { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*" }
   }
 `
@@ -32,9 +32,7 @@ export class UptimeCheckerStack extends Stack {
     super(scope, id, props);
 
     if (this.node.tryGetContext('topic') == "") { throw ("Topic context variable required") }
-
     const topic = sns.Topic.fromTopicArn(this, "topic", this.node.tryGetContext('topic'))
-
 
     const requestFunction = new lambda.Function(this, `UptimeRequest`, {
       functionName: `uptimeChecker`,

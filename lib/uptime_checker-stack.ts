@@ -20,6 +20,7 @@ import urllib.request as requests
 
 def handler(event,context):
   response = requests.urlopen(event.URL)
+  print(response)
   return { 
     "statusCode": response.status, "body": { "status": response.status, "URL": event.URL },
     "headers": { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*" }

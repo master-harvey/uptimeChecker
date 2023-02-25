@@ -10,9 +10,7 @@ import { Construct } from 'constructs';
 
 const requestURLs = [
   "https://mastersautomation.tech/",
-  "https://httpstat.us/400",
-  "https://httpstat.us/500",
-  "https://httpstat.us/200"
+  ""
 ]
 
 const functionCode = `#Check URL uptime, return success if available, false and notify SNS if not

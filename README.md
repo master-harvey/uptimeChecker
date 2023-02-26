@@ -1,14 +1,11 @@
-# Welcome to your CDK TypeScript project
+# Simple serverless Uptime Checker
 
-This is a blank project for CDK development with TypeScript.
+Lambda + SNS to check and notify of a loss in URL uptime.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+During deployment you must supply an SNS topic ARN via the topic context variable:
 
-## Useful commands
+`cdk deploy -c topic=<your topic ARN>`
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+## URLs and Times
+
+Supply URLs in the request URL's variable array and times in the times array. Times can be either an integer < 25 in order to specify an hour of the day to check or a cron string directly for more finite control eg: cron(0 12 ? * * *)

@@ -20,7 +20,7 @@ def handler(event,context):
     response = requests.urlopen(event['URL'])
     print(response)
     return { "statusCode": response.status, "body": { "status": response.status, "URL": event['URL'] } }
-  except:
+  except Exception:
     raise(Exception("Error connecting to "+event['URL']))
 `
 

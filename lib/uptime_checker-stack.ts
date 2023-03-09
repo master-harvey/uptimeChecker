@@ -8,9 +8,12 @@ import {
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-const requestURLs = ["https://mastersautomation.tech/",]
-const times = ["cron(0 4 ? * * *)", 12, "cron(0 20 ? * * *)"]
+const requestURLs = [
+  "https://mastersautomation.tech/", //cloud
+  "https://portainer.dc.m-a.cloud/"  //house
+]
 //takes an hour of the 24 hour day or a cron string like: cron(0 12 ? * * *)
+const times = ["cron(0 4 ? * * *)", 12, "cron(0 20 ? * * *)"]
 
 const functionCode = `#Check URL uptime, return success if available, false and notify SNS if not
 import urllib.request as requests

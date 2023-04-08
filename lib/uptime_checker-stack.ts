@@ -17,7 +17,7 @@ const checkURLs = [
 const times = ["cron(0 4 ? * * *)", 12, "cron(0 20 ? * * *)"]
 
 const functionCode = `#Check URL uptime, return success if available, false and notify SNS if not
-import urllib.request.urlopen as urlopen
+from urllib.request import urlopen
 
 def handler(event,context):
   try:

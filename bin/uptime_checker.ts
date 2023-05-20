@@ -4,4 +4,4 @@ import * as cdk from 'aws-cdk-lib';
 import { UptimeCheckerStack } from '../lib/uptime_checker-stack';
 
 const app = new cdk.App();
-new UptimeCheckerStack(app, 'UptimeCheckerStack', {});
+new UptimeCheckerStack(app, 'UptimeCheckerStack', { description: "Regularly check health of http(s) sites" });
